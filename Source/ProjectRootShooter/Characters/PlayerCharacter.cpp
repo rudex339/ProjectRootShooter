@@ -89,7 +89,7 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
         EnhancedInput->BindAction(LookAction, ETriggerEvent::Triggered, this, &APlayerCharacter::Look);
         EnhancedInput->BindAction(AimAction, ETriggerEvent::Started, this, &APlayerCharacter::StartAim);
         EnhancedInput->BindAction(AimAction, ETriggerEvent::Completed, this, &APlayerCharacter::StopAim);
-        EnhancedInput->BindAction(JumpAction, ETriggerEvent::Started, this, &ACharacter::Jump);
+        EnhancedInput->BindAction(JumpAction, ETriggerEvent::Started, this, &APlayerCharacter::HandleJump);
         EnhancedInput->BindAction(RunAction, ETriggerEvent::Started, this, &APlayerCharacter::StartRun);
         EnhancedInput->BindAction(RunAction, ETriggerEvent::Completed, this, &APlayerCharacter::StopRun);
         EnhancedInput->BindAction(ToggleInventoryAction, ETriggerEvent::Started, this, &APlayerCharacter::ToggleInventory);
@@ -104,6 +104,16 @@ void APlayerCharacter::StartRun()
 void APlayerCharacter::StopRun()
 {
     GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
+}
+
+void APlayerCharacter::HandleJump()
+{
+    const float JumpStaminaCost = 20.0f;
+    if (CurrentStamina >= JumpStaminaCost)
+    {
+        CurrentStamina -= JumpStaminaCost;
+        Jump();
+    }
 }
 
 void APlayerCharacter::Move(const FInputActionValue& Value)
@@ -190,9 +200,11 @@ void APlayerCharacter::ChangeEquip1(int32 EquipIndex)
 void APlayerCharacter::Tick(float DeltaTime)
 {
     Super::Tick(DeltaTime);
-
-    // 달리는 중이면 스태미나 감소
-    if (GetCharacterMovement()->MaxWalkSpeed == RunSpeed && !FMath::IsNearlyZero(CurrentStamina))
+    if (GetCharacterMovement()->IsFalling())
+    {
+        
+    }    // 달리는 중이면 스태미나 감소    
+    else if (GetCharacterMovement()->MaxWalkSpeed == RunSpeed && !FMath::IsNearlyZero(CurrentStamina))
     {
         const float StaminaDrainRate = 15.0f; // 초당 감소량 (원하는 값으로 조절)
         CurrentStamina = FMath::Clamp(CurrentStamina - (StaminaDrainRate * DeltaTime), 0.0f, MaxStamina);

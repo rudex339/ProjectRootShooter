@@ -30,6 +30,7 @@ protected:
     void UpdateCameraForAim(bool bIsAimingNow);
     void StartRun();
     void StopRun();
+    void HandleJump();
 
     void ToggleInventory();
 
