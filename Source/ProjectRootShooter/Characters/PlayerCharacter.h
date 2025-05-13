@@ -11,7 +11,7 @@ class UInputMappingContext;
 class UInputAction;
 class UUserWidget;
 
-UCLASS()
+UCLASS(Blueprintable)
 class PROJECTROOTSHOOTER_API APlayerCharacter : public ACharacter
 {
     GENERATED_BODY()
@@ -129,6 +129,12 @@ protected:
 
     UPROPERTY()
     UUserWidget* InventoryWidgetInstance;
+
+    UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Inventory")
+    void OpenInventoryComponent();
+
+    UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Inventory")
+    void CloseInventoryComponent();
 
     bool bIsInventoryOpen = false;
 

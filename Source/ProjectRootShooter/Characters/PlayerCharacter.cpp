@@ -240,11 +240,12 @@ void APlayerCharacter::ToggleInventory()
     if (bIsInventoryOpen)
     {
         // 닫기
-        if (InventoryWidgetInstance)
-        {
-            InventoryWidgetInstance->RemoveFromParent();
-            InventoryWidgetInstance = nullptr;
-        }
+        // if (InventoryWidgetInstance)
+        // {
+        //     InventoryWidgetInstance->RemoveFromParent();
+        //     InventoryWidgetInstance = nullptr;
+        // }
+        CloseInventoryComponent();
 
         PC->bShowMouseCursor = false;
         PC->SetIgnoreLookInput(false);
@@ -261,14 +262,15 @@ void APlayerCharacter::ToggleInventory()
     else
     {
         // 열기
-        if (InventoryWidgetClass)
-        {
-            InventoryWidgetInstance = CreateWidget<UUserWidget>(GetWorld(), InventoryWidgetClass);
-            if (InventoryWidgetInstance)
-            {
-                InventoryWidgetInstance->AddToViewport();
-            }
-        }
+        // if (InventoryWidgetClass)
+        // {
+        //     InventoryWidgetInstance = CreateWidget<UUserWidget>(GetWorld(), InventoryWidgetClass);
+        //     if (InventoryWidgetInstance)
+        //     {
+        //         InventoryWidgetInstance->AddToViewport();
+        //     }
+        // }
+        OpenInventoryComponent();
 
         PC->bShowMouseCursor = true;
         PC->SetIgnoreLookInput(true);
@@ -276,7 +278,7 @@ void APlayerCharacter::ToggleInventory()
         FInputModeGameAndUI InputMode;
         InputMode.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
         InputMode.SetHideCursorDuringCapture(false);
-        InputMode.SetWidgetToFocus(InventoryWidgetInstance->TakeWidget());
+        //InputMode.SetWidgetToFocus(InventoryWidgetInstance->TakeWidget());
 
         PC->SetInputMode(InputMode);
 
