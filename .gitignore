@@ -5,6 +5,7 @@ Saved/
 DerivedDataCache/
 .vscode/
 .idea/
+ProjectRootShooter.uproject
 
 # Visual Studio 관련 무시
 *.sln
